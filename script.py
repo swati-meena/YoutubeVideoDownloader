@@ -2,29 +2,31 @@ from pytube import YouTube
 from yt_dlp import YoutubeDL
 
 
-link = input("Enter youtube video")
-yt = YouTube(link)
+def download_youtube_video(link):
+    yt = YouTube(link)
 
-# To print title
-print("Title :", yt.title)
-# To get number of views
-print("Views :", yt.views)
-# To get the length of video
-print("Duration :", yt.length)
-# To get description
-print("Description :", yt.description)
-# To get ratings
-print("Ratings :", yt.rating)
+    print("Title :", yt.title)
+    print("Views :", yt.views)
+    print("Duration :", yt.length)
+    print("Description :", yt.description)
+    print("Ratings :", yt.rating)
 
+    download_option = input("Do you want to download this video? (yes/no): ").lower()
 
-download_option = input("Do you want to download this video? (yes/no): ").lower()
+    if download_option == "yes":
+        url = link
+        ydl_opts = {'format': 'best'}
+        with YoutubeDL(ydl_opts) as ydl:
+            print("Downloading...")
+            ydl.download([url])
+            print("Download completed.")
+    else:
+        print("Download aborted.")
 
-if download_option == "yes":
-    url = link
-    ydl_opts = {'format': 'best'}
-    with YoutubeDL(ydl_opts) as ydl:
-        print("Downloading...")
-        ydl.download([url])
-        print("Download completed.")
-else:
-    print("Download aborted.")
+x = "yes"
+while x == "yes":
+    link = input("Enter youtube video link :")
+    download_youtube_video(link)
+    x = input("Do you want to download another video? (yes/no): ").lower()
+    if x != "yes":
+        print("Thank you for using the Youtube Downloader!")
